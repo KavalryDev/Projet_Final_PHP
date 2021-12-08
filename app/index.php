@@ -2,5 +2,6 @@
 session_start();
 require './vendor/autoload.php';
 
-$router = new \App\Fram\Router();
-$router->getController();
+/*$router = new \App\Fram\Router();
+$router->getController();*/
+ echo "bonjour";
