@@ -1,0 +1,15 @@
+{
+    "name": "raphaelbasilwylohn/blog",
+    "autoload": {
+        "psr-4": {
+            "Raphaelbasilwylohn\\Blog\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "KavalryDev",
+            "email": "raphael@kavalry.fr"
+        }
+    ],
+    "require": {}
+}
