@@ -2,22 +2,37 @@
 
 namespace App\Manager;
 
-class UserManager
+use App\Entity\User;
+use App\Fram\Factories\PDOFactory;
+
+class UserManager extends BaseManager
 {
-    public function __construct(array $data = [])
+    // Querys -> getAll / Add / getById / Update / Delete
+
+    public function getAllUsers(): array
     {
-        $this->hydrate($data);
+        // TODO - add Query method
+        return [];
     }
 
-    public function hydrate(array $data) // $data = $_POST
+    public function createUser(): void
     {
-        foreach($data as $key => $value) { // $data = $_POST // $key = $_POST['name'] // $value = "Jacquy"
+        // TODO - add Query method
+    }
 
-            $method = 'set' . ucfirst($key); // set"?"() <- setName() setFirstName setID
+    public function getUserById(int $id): User
+    {
+        // TODO - add Query method
+        return new User();
+    }
 
-            if(is_callable([$this, $method])) { // if setName exists
-                $this->$method($value); // then launch setName("Jacquy")
-            }
-        }
+    public function updateUser(): void
+    {
+        // TODO - add Query method
+    }
+
+    public function deleteUserById(int $id): void
+    {
+        // TODO - add Query method
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-class AdminController
+class BaseController
 {
 
 }
