@@ -7,32 +7,90 @@ use App\Fram\Factories\PDOFactory;
 
 class UserManager extends BaseManager
 {
-    // Querys -> getAll / Add / getById / Update / Delete
 
+    /**
+     * @return array
+     */
     public function getAllUsers(): array
     {
-        // TODO - add Query method
-        return [];
+        $select = $this->db->query('SELECT * FROM User');
+        $select->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, 'Entity/Post');
+        return $select->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public function createUser(): void
+    /**
+     * @param User $user
+     */
+    public function createUser(User $user): void
     {
-        // TODO - add Query method
+
+        try {
+            $select = $this->db->query(
+                'INSERT INTO `User` (`id`, `Firstname`, `Lastname`, `Password`, `Email`, `IsAdmin`)
+            VALUES (
+                    NULL,
+                    "' . $user->getFirstname() . '",
+                    "' . $user->getLastname() . '",
+                    "' . $user->getPassword() . '",
+                    "' . $user->getEmail() . '",
+                    "' . $user->isAdmin() . '")'
+            );
+        } catch (\Exception $e) {
+            die('MySQL Error : ' . $e->getMessage());
+        }
+        // return message via Flash
     }
 
+    /**
+     * @param int $id
+     * @return User
+     */
     public function getUserById(int $id): User
     {
-        // TODO - add Query method
-        return new User();
+        $select = $this->db->prepare('SELECT * FROM User WHERE id=:id');
+        $select->bindValue(':id', $id, \PDO::PARAM_INT);
+        $select->execute();
+
+        $result = $select->fetch(\PDO::FETCH_ASSOC);
+
+        return new User($result);
     }
 
-    public function updateUser(): void
+    /**
+     * @param User $user
+     * @param int $id
+     */
+    public function updateUserById(User $user): void
     {
-        // TODO - add Query method
+        try {
+            $select = $this->db->prepare(
+                'UPDATE `User` SET `Firstname`=:firstname, `Lastname`=:lastname, `Password`=:password, `Email`=:email, `isAdmin`=:isAdmin WHERE id=:id'
+            );
+            $select->bindValue(':firstname',$user->getFirstname(),\PDO::PARAM_STR);
+            $select->bindValue(':lastname',$user->getLastname(),\PDO::PARAM_STR);
+            $select->bindValue(':password',$user->getPassword(),\PDO::PARAM_STR);
+            $select->bindValue(':email',$user->getEmail(),\PDO::PARAM_STR);
+            $select->bindValue(':isAdmin',$user->isAdmin(),\PDO::PARAM_BOOL);
+            $select->bindValue(':id',$user->getId(),\PDO::PARAM_INT);
+
+            $select->execute();
+        } catch (\Exception $e) {
+            die('MySQL Error : ' . $e->getMessage());
+        }
+        // return message via Flash
     }
 
+    /**
+     * @param int $id
+     */
     public function deleteUserById(int $id): void
     {
-        // TODO - add Query method
+        try {
+            $select = $this->db->prepare('DELETE FROM `User` WHERE `id`=:id');
+            $select->bindValue(':id', $id, \PDO::PARAM_INT);
+            $select->execute();
+        } catch (\Exception $e) {
+            die('MySQL Error : ' . $e->getMessage());
+        }
     }
 }

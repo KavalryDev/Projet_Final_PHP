@@ -2,12 +2,14 @@
 
 namespace App\Manager;
 
+use App\Fram\Factories\PDOFactory;
+
 abstract class BaseManager
 {
-    protected PDO $pdo;
+    protected $db;
 
-    public function __construct($pdo)
+    public function __construct()
     {
-        $this->pdo = $pdo;
+        $this->db = PDOFactory::getMysqlConnection();
     }
 }

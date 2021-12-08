@@ -7,7 +7,7 @@ class Post
     private int $id;
     private string $title;
     private string $content;
-    private \DateTime $date;
+    private \DateTime $creationDate;
     private int $idUser;
 
     /**
@@ -61,17 +61,17 @@ class Post
     /**
      * @return \DateTime
      */
-    public function getDate(): \DateTime
+    public function getCreationDate(): \DateTime
     {
-        return $this->date;
+        return $this->creationDate;
     }
 
     /**
-     * @param \DateTime $date
+     * @param \DateTime $creationDate
      */
-    public function setDate(\DateTime $date): void
+    public function setCreationDate(\DateTime $creationDate): void
     {
-        $this->date = $date;
+        $this->creationDate = $creationDate;
     }
 
     /**
@@ -88,5 +88,23 @@ class Post
     public function setIdUser(int $idUser): void
     {
         $this->idUser = $idUser;
+    }
+
+
+    public function __construct(array $data = [])
+    {
+        $this->hydrate($data);
+    }
+
+    public function hydrate(array $data) // $data = $_POST
+    {
+        foreach($data as $key => $value) { // $data = $_POST // $key = $_POST['name'] // $value = "Jacquy"
+
+            $method = 'set' . ucfirst($key); // set"?"() <- setName() setFirstName setID
+
+            if(is_callable([$this, $method])) { // if setName exists
+                $this->$method($value); // then launch setName("Jacquy")
+            }
+        }
     }
 }

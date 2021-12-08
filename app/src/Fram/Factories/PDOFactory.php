@@ -4,21 +4,22 @@ namespace App\Fram\Factories;
 
 class PDOFactory
 {
-    private $host = 'db';
-    private $database_name = 'player';
-    private $username = 'root';
-    private $password = 'example';
-
-    public function __construct()
+    public static function getMysqlConnection()
     {
-        $this->data = null;
-        try {
-            $this->data = new PDO('mysql:host='. $this->host . ';dbname=' . $this->database_name, $this->username, $this->password);
+        $host = 'db';
+        $username = 'root';
+        $password = 'example';
 
-            $this->data->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $conn = null;
+        try {
+            $conn = new \PDO('mysql:host='.$host.';dbname=Blog',$username,$password);
+
+            $conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         }
-        catch(PDOException $e) {
+        catch(\PDOException $e) {
             die('Connection Error : ' . $e->getMessage());
         }
+
+        return $conn;
     }
 }

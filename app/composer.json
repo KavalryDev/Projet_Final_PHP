@@ -2,7 +2,7 @@
     "name": "raphaelbasilwylohn/blog",
     "autoload": {
         "psr-4": {
-            "Raphaelbasilwylohn\\Blog\\": "src/"
+            "App\\": "src/"
         }
     },
     "authors": [
