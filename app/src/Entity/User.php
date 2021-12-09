@@ -112,6 +112,7 @@ class User
         $this->hydrate($data);
     }
 
+    // TODO - Essayer un trait au lieu de le mettre 3 fois
     public function hydrate(array $data) // $data = $_POST
     {
         foreach($data as $key => $value) { // $data = $_POST // $key = $_POST['name'] // $value = "Jacquy"

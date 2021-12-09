@@ -22,8 +22,7 @@ class PostController extends BaseController
         return $this->render(
             'home.php',
             [
-                'posts'=> $posts,
-                'post'=> new Post(),
+                'posts'=> $posts
             ],
             'Homepage'
         );
@@ -31,18 +30,35 @@ class PostController extends BaseController
 
 
     /**
-     *
+     * Show 1 post by its Id
      */
-    public function executeShow()
+    public function executeShowPost()
     {
-        Flash::setFlash('alert', 'je suis une alerte');
+        $postid = $this->params['id']; // -> $_GET['id']
+        $postManager = new PostManager();
+        $allPost = $postManager->getAllPosts();
 
-        return $this->render(
-            'post.php',
-            [
-                'test' => 'article ' . $this->params['id']
-            ],
-            'Post Page'
-        );
+        switch ($postid !="") {
+            case true:
+                $post = $postManager->getPostById($this->params['id']);
+                if ( is_object($post) ) {
+                    return $this->render(
+                        'post.php',
+                        [
+                            'post' => $post,
+                            'postid' => $postid
+                        ],
+                        'Post Page'
+                    );
+                } else {
+                    echo "nop";
+                }
+                break;
+
+            case false:
+                header('Location: /');
+                exit();
+                break;
+        }
     }
 }

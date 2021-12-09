@@ -16,17 +16,28 @@ class PostManager extends BaseManager
         return $select->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public function getPostById(int $id): Post
+    /**
+     * @param int $id
+     * @return Post|false
+     */
+    public function getPostById(int $id)
     {
-        $select = $this->db->prepare('SELECT * FROM Post WHERE id =:id');
+        $select = $this->db->prepare('SELECT * FROM Post WHERE id=:id');
         $select->bindValue(':id', $id, \PDO::PARAM_INT);
         $select->execute();
 
-        $result = $select->fetch(\PDO::FETCH_ASSOC);
-        $post = $result['Post'];
-        return new $post($result);
+        if ($select->rowCount() > 0) {
+            $result = $select->fetch(\PDO::FETCH_ASSOC);
+            return new Post($result);
+        } else {
+            return false;
+        }
     }
 
+    /**
+     * @param int $id
+     * @return Post
+     */
     public function getPostByIdWithComments(int $id): Post
     {
         $select = $this->db->prepare('SELECT * FROM Post WHERE id =:id');
@@ -69,7 +80,7 @@ class PostManager extends BaseManager
             $select = $this->db->prepare(
                 'UPDATE `Post` SET `Title`=:title, `Content`=:content, WHERE id=:id'
             );
-            $select->bindValue(':title',$post->getPost(),\PDO::PARAM_STR);
+            $select->bindValue(':title',$post->getTitle(),\PDO::PARAM_STR);
             $select->bindValue(':content',$post->getContent(),\PDO::PARAM_STR);
             $select->bindValue(':id',$post>getId(),\PDO::PARAM_INT);
 

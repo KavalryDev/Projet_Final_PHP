@@ -5,8 +5,8 @@ namespace App\Controller;
 abstract class BaseController
 {
     protected array $params;
-    private string $viewsDir = __DIR__ . './../Views/Frontend/';
-    private string $templateFile = __DIR__ . './../Views/template.php';
+    protected string $viewsDir = __DIR__ . './../Views/Frontend/';
+    protected string $templateFile = __DIR__ . './../Views/template.php';
 
     /**
      * @param string $action

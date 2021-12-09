@@ -1,12 +1,11 @@
-<h1>Ceci est la page d'1 post</h1>
+<h1>Ceci est la page d'un post</h1>
 
 <?php
 /**
- * @var $posts \App\Entity\Post[]
+ * @var $post \App\Entity\Post[]
  */
-
 var_dump($post);
-
-echo "Bonjour";
-
+echo "<br><br><br>";
+echo "je suis postid ";
+var_dump($postid);
 ?>

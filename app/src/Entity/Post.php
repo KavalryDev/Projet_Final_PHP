@@ -67,11 +67,11 @@ class Post
     }
 
     /**
-     * @param \DateTime $creationDate
+     * @param string $creationDate
      */
-    public function setCreationDate(\DateTime $creationDate): void
+    public function setCreationDate(string $creationDate): void
     {
-        $this->creationDate = $creationDate;
+        $this->creationDate = \DateTime::createFromFormat('Y-m-d H:i:s',$creationDate);
     }
 
     /**
