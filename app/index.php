@@ -2,9 +2,9 @@
 session_start();
 require './vendor/autoload.php';
 
-/*$router = new \App\Fram\Router();
-$router->getController();*/
-echo "bonjour <br />";
+$router = new \App\Fram\Router();
+$router->getController();
+//echo "bonjour <br />";
 
 //$userLists = (new \App\Manager\UserManager( \App\Fram\Factories\PDOFactory::getMysqlConnection() ))->getAllUsers();
 
@@ -35,3 +35,14 @@ echo $newpost->getTitle();
 echo '<br>';
 
 $postCreation->createPost($newpost);*/
+
+/*$allComments = new \App\Manager\CommentManager();
+$Comment = ['id' => 1, 'content' => "Je suis le nouveau contenu du commentaire", 'creationDate' => new DateTime(), 'idUser' => 1, 'idPost' => 1];
+$newComment = new \App\Entity\Comment($Comment);
+
+
+$allComments->createPost($newComment);*/
+
+//$Manager = new \App\Manager\UserManager();
+
+//$Manager->updateAdminRightById(1,false);

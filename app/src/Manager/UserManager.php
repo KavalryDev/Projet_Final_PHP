@@ -93,4 +93,23 @@ class UserManager extends BaseManager
             die('MySQL Error : ' . $e->getMessage());
         }
     }
+
+    /**
+     * @param int $id
+     */
+    public function updateAdminRightById(int $id,bool $isAdmin): void
+    {
+        try {
+            $select = $this->db->prepare(
+                'UPDATE `User` SET `isAdmin`=:isAdmin WHERE id=:id'
+            );
+            $select->bindValue(':isAdmin',$isAdmin,\PDO::PARAM_BOOL);
+            $select->bindValue(':id',$id,\PDO::PARAM_INT);
+
+            $select->execute();
+        } catch (\Exception $e) {
+            die('MySQL Error : ' . $e->getMessage());
+        }
+        // return message via Flash
+    }
 }
