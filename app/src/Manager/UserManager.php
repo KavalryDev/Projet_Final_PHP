@@ -14,7 +14,7 @@ class UserManager extends BaseManager
     public function getAllUsers(): array
     {
         $select = $this->db->query('SELECT * FROM User');
-        $select->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, 'Entity/Post');
+        $select->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, 'Entity/User');
         return $select->fetchAll(\PDO::FETCH_ASSOC);
     }
 

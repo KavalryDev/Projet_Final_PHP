@@ -59,11 +59,11 @@ class Post
     }
 
     /**
-     * @return \DateTime
+     * @return string
      */
-    public function getCreationDate(): \DateTime
+    public function getCreationDate(): string
     {
-        return $this->creationDate;
+        return $this->creationDate->format('Y-m-d H:i:s');
     }
 
     /**

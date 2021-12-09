@@ -28,10 +28,10 @@ $Manager = new \App\Manager\UserManager();
 
 $Manager->deleteUserById();*/
 
-$postCreation = new \App\Manager\PostManager();
-$post = ['title' => 'Le super Michou', 'content' => 'Il est vraiment super ce Michou', 'creationDate' => new DateTime()];
+/*$postCreation = new \App\Manager\PostManager();
+$post = ['title' => 'Le super nouveau Michou', 'content' => 'Il est vraiment super ce nouveau Michou', 'creationDate' => new DateTime()];
 $newpost = new \App\Entity\Post($post);
 echo $newpost->getTitle();
 echo '<br>';
 
-$postCreation->createPost($newpost);
+$postCreation->createPost($newpost);*/

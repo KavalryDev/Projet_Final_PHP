@@ -11,5 +11,7 @@
             "email": "raphael@kavalry.fr"
         }
     ],
-    "require": {}
+    "require": {
+      "ext-pdo": "*"
+    }
 }
