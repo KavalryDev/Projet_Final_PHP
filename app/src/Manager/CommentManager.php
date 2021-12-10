@@ -80,7 +80,7 @@ class CommentManager extends BaseManager
             $select->bindValue(':creationDate',$comment->getCreationDate(),\PDO::PARAM_STR);
             $select->bindValue(':idUser',$comment->getIdUser(),\PDO::PARAM_INT);
             $select->bindValue(':idPost',$comment->getIdPost(),\PDO::PARAM_INT);
-            $select->bindValue(':id',$comment->getId(),\PDO::PARAM_INT);
+            $select->bindValue(':id',$comment->getIdComment(),\PDO::PARAM_INT);
 
             $select->execute();
         } catch (\Exception $e) {

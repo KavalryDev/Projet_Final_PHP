@@ -3,6 +3,8 @@
 namespace App\Manager;
 
 use App\Entity\Post;
+use App\Entity\User;
+use App\Fram\Utils\Flash;
 
 class PostManager extends BaseManager
 {
@@ -11,7 +13,12 @@ class PostManager extends BaseManager
      */
     public function getAllPosts(): array
     {
-        $select = $this->db->query('SELECT * FROM Post');
+        $select = $this->db->query(
+            'SELECT `Post`.*, `User`.`idUser`, `User`.`Firstname`, `User`.`Lastname`
+                       FROM `Post`
+                       LEFT JOIN `User`
+                       ON `Post`.`idUser` = `User`.`idUser`'
+        );
         $select->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, 'Entity/Post');
         return $select->fetchAll(\PDO::FETCH_ASSOC);
     }
@@ -23,11 +30,11 @@ class PostManager extends BaseManager
     public function getPostById(int $id)
     {
         $select = $this->db->prepare(
-            'SELECT `Post`.*, `User`.`Firstname`, `User`.`Lastname`, `Post`.`id` 
+            'SELECT `Post`.*, `User`.`idUser`, `User`.`Firstname`, `User`.`Lastname` 
                     FROM `Post` 
                     LEFT JOIN `User` 
-                    ON `Post`.`idUser` = `User`.`id` 
-                    WHERE `Post`.`id` = :id;'
+                    ON `Post`.`idUser` = `User`.`idUser` 
+                    WHERE `Post`.`idPost` = :id;'
         );
         $select->bindValue(':id', $id, \PDO::PARAM_INT);
         $select->execute();
@@ -48,7 +55,7 @@ class PostManager extends BaseManager
     {
         try {
             $select = $this->db->query(
-                'INSERT INTO `Post` (`id`, `Title`, `Content`, `CreationDate`)
+                'INSERT INTO `Post` (`idPost`, `Title`, `Content`, `CreationDate`)
             VALUES (
                     NULL,
                     "' . $post->getTitle() . '",
@@ -58,7 +65,6 @@ class PostManager extends BaseManager
         } catch (\Exception $e) {
             die('MySQL Error : ' . $e->getMessage());
         }
-        // return message via Flash
     }
 
     /**
@@ -69,17 +75,16 @@ class PostManager extends BaseManager
     {
         try {
             $select = $this->db->prepare(
-                'UPDATE `Post` SET `Title`=:title, `Content`=:content, WHERE id=:id'
+                'UPDATE `Post` SET `Title`=:title, `Content`=:content, WHERE `idPost`=:id'
             );
             $select->bindValue(':title',$post->getTitle(),\PDO::PARAM_STR);
             $select->bindValue(':content',$post->getContent(),\PDO::PARAM_STR);
-            $select->bindValue(':id',$post>getId(),\PDO::PARAM_INT);
+            $select->bindValue(':id',$post>getIdPost(),\PDO::PARAM_INT);
 
             $select->execute();
         } catch (\Exception $e) {
             die('MySQL Error : ' . $e->getMessage());
         }
-        // return message via Flash
     }
 
     /**
@@ -89,12 +94,11 @@ class PostManager extends BaseManager
     public function deletePostById(int $id): void
     {
         try {
-            $select = $this->db->prepare('DELETE FROM `Post` WHERE `id`=:id');
+            $select = $this->db->prepare('DELETE FROM `Post` WHERE `idPost`=:id');
             $select->bindValue(':id', $id, \PDO::PARAM_INT);
             $select->execute();
         } catch (\Exception $e) {
             die('MySQL Error : ' . $e->getMessage());
         }
-        // return message via Flash
     }
 }

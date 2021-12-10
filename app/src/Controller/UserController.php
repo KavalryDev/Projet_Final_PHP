@@ -28,6 +28,8 @@ class UserController extends BaseController
             'Home page'
         );
     }
+
+
     public function executeShow()
     {
         Flash::setFlash('alert', 'je suis une alerte');
@@ -39,5 +41,22 @@ class UserController extends BaseController
             ],
             'Show Page'
         );
+    }
+
+    public function executeLogin()
+    {
+        $this->render(
+            'login.php',
+            [
+            ],
+            'Login Page'
+        );
+    }
+
+
+    public function executeLoginAction()
+    {
+
+        header('Location: /');
     }
 }

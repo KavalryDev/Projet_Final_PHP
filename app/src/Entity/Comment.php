@@ -4,7 +4,7 @@ namespace App\Entity;
 
 class Comment
 {
-    private int $id;
+    private int $idComment;
     private string $content;
     private \DateTime $creationDate;
     private int $idUser;
@@ -13,17 +13,17 @@ class Comment
     /**
      * @return int
      */
-    public function getId(): int
+    public function getIdComment(): int
     {
-        return $this->id;
+        return $this->idComment;
     }
 
     /**
      * @param int $id
      */
-    public function setId(int $id): void
+    public function setIdComment(int $id): void
     {
-        $this->id = $id;
+        $this->idComment = $id;
     }
 
     /**

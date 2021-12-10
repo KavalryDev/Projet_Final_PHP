@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+use App\Fram\Factories\PDOFactory;
 use App\Fram\Utils\Flash;
 use App\Manager\PostManager;
+use DateTime;
+
 
 class PostController extends BaseController
 {
@@ -14,7 +17,7 @@ class PostController extends BaseController
      */
     public function executeIndex()
     {
-        $postManager = new PostManager(); // TODO - check la bonne pratique du PDOFactory dans BaseManager
+        $postManager = new PostManager(PDOFactory::getMysqlConnection());
         $posts = $postManager->getAllPosts();
 
         return $this->render(
@@ -34,7 +37,7 @@ class PostController extends BaseController
     {
 
         $postid = $this->params['id']; // -> $_GET['id']
-        $postManager = new PostManager();
+        $postManager = new PostManager(PDOFactory::getMysqlConnection());
 
         switch ($postid !="") {
             case true:
@@ -44,7 +47,7 @@ class PostController extends BaseController
                         'post.php',
                         [
                             'post' => $post,
-                            'postid' => $postid
+                            'postid' => $postid,
                         ],
                         'Post Page'
                     );
@@ -70,29 +73,29 @@ class PostController extends BaseController
         if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 
             $postid = $_POST['deleteid'];
-            $postManager = new PostManager();
+            $postManager = new PostManager(PDOFactory::getMysqlConnection());
 
             switch ($postid != "") {
                 case true:
                     $post = $postManager->getPostById($_POST['deleteid']);
                     if (is_object($post)) {
-                        Flash::setFlash('success', 'Post supprimé.');
+                        Flash::setFlash('success', 'The post has been deleted.');
                         $postManager->deletePostById($postid);
                     } else {
-                        Flash::setFlash('alert', 'Le post que vous souhaitez supprimer, n\'existe pas smfdlk.');
+                        Flash::setFlash('alert', 'The post you\'re trying to delete doesn\'t exist.');
                     }
                     header('Location: /');
                     exit();
 
                 case false:
                     header('Location: /');
-                    Flash::setFlash('alert', 'Le post que vous souhaitez supprimer, n\'existe pas lkmn.');
+                    Flash::setFlash('alert', 'The post you\'re trying to delete doesn\'t exist.');
                     exit();
             }
 
         } else {
             header('Location: /');
-            Flash::setFlash('alert', 'Vous ne pouvez pas accéder à cette page.');
+            Flash::setFlash('alert', 'You don\'t have access for this command.');
             exit();
         }
     }
@@ -103,24 +106,28 @@ class PostController extends BaseController
      */
     public function executeCreatePost()
     {
-        // TODO - Checker le fonctionnement via formulaire
-        // TODO - Impossible de checker en l'état car je ne peux pas passer le contenu d'un Post dans $_GET
-        // Remplacer $_GET (-> bannir) par $_POST
-        // Je dois donner le contenu qui permettra d'instancier un objet Post.
-
-        $post = new Post($this->params);
-        $postManager = new PostManager();
-        //$postManager->createPost($post);
-
-        Flash::setFlash('success', 'Post créé.');
-        // display the freshly created post
         return $this->render(
-            'post.php',
+            'writepost.php',
             [
-                'post' => $post
             ],
-            'Post Page'
+            'New Post'
         );
+    }
+
+
+    /**
+     * Create 1 Post via Form
+     */
+    public function executeCreatedPost()
+    {
+        $post = new Post($_POST);
+        $post->setCreationDate(date('Y-m-d H:i:s',(new DateTime)->getTimeStamp()));
+        $postManager = new PostManager(PDOFactory::getMysqlConnection());
+        $postManager->createPost($post);
+
+        Flash::setFlash('success', 'This Post has been created.');
+        // display the freshly created post
+        header('Location: /');
     }
 
 
@@ -132,16 +139,16 @@ class PostController extends BaseController
         // TODO - Checker le fonctionnement via formulaire
         // TODO - Impossible de checker en l'état car je ne peux pas passer le contenu d'un Post dans $_GET
         $post = new Post($this->params);
-        $postManager = new PostManager();
+        $postManager = new PostManager(PDOFactory::getMysqlConnection());
         $postManager->updatePostById($post);
 
 
-        Flash::setFlash('success', 'Post mis à jour.');
+        Flash::setFlash('success', 'This Post has been updated.');
         // display the freshly updated post
         return $this->render(
             'post.php',
             [
-                'post' => $post
+                'post' => $post,
             ],
             'Post Page'
         );

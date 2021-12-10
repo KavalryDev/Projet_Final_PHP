@@ -8,8 +8,8 @@ abstract class BaseManager
 {
     protected $db;
 
-    public function __construct()
+    public function __construct($pdo)
     {
-        $this->db = PDOFactory::getMysqlConnection();
+        $this->db = $pdo;
     }
 }

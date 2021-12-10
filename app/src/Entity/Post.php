@@ -2,28 +2,42 @@
 
 namespace App\Entity;
 
+use App\Fram\Factories\PDOFactory;
+use App\Manager\UserManager;
+
 class Post
 {
-    private int $id;
+    private int $idPost;
     private string $title;
     private string $content;
     private \DateTime $creationDate;
-    private int $idUser;
+    private $idUser;
+    // Pour le bon fonctionnement malgré l'absence de la feature Users fonctionnelles
+    // le typehint a été retiré pour $idUser afin de permettre l'accès aux Articles qui
+    // ont été créés à partir du form, et donc sans user / author affecté
+
+    /**
+     * @return User
+     */
+    public function getAuthor(): User
+    {
+        return (new UserManager(PDOFactory::getMysqlConnection()))->getUserById($this->getIdUser());
+    }
 
     /**
      * @return int
      */
-    public function getId(): int
+    public function getIdPost(): int
     {
-        return $this->id;
+        return $this->idPost;
     }
 
     /**
      * @param int $id
      */
-    public function setId(int $id): void
+    public function setIdPost(int $id): void
     {
-        $this->id = $id;
+        $this->idPost = $id;
     }
 
     /**
@@ -77,25 +91,31 @@ class Post
     /**
      * @return int
      */
-    public function getIdUser(): int
+    public function getIdUser()
     {
         return $this->idUser;
     }
 
     /**
-     * @param int $idUser
+     * @param $idUser
      */
-    public function setIdUser(int $idUser): void
+    public function setIdUser($idUser): void
     {
         $this->idUser = $idUser;
     }
 
 
+    /**
+     * @param array $data
+     */
     public function __construct(array $data = [])
     {
         $this->hydrate($data);
     }
 
+    /**
+     * @param array $data
+     */
     public function hydrate(array $data) // $data = $_POST
     {
         foreach($data as $key => $value) { // $data = $_POST // $key = $_POST['name'] // $value = "Jacquy"

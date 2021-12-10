@@ -22,8 +22,8 @@
             </a>
 
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="#" class="nav-link px-2 text-secondary">Home</a></li>
-                <li><a href="#" class="nav-link px-2 text-white">Write Post</a></li>
+                <li><a href="/" class="nav-link px-2 text-secondary">Home</a></li>
+                <li><a href="/creation/" class="nav-link px-2 text-white">Write Post</a></li>
                 <li><a href="#" class="nav-link px-2 text-white">Users List</a></li>
                 <li><a href="#" class="nav-link px-2 text-white">My Account</a></li>
             </ul>
@@ -33,8 +33,9 @@
             </form>
 
             <div class="text-end">
-                <button type="button" class="btn btn-outline-light me-2">Login</button>
-                <button type="button" class="btn btn-warning">Sign-up</button>
+                <form action="/login/" method="POST">
+                    <input type="submit" class="btn btn-outline-light me-2" value="Login" name="Login" />
+                </form>
             </div>
         </div>
     </div>

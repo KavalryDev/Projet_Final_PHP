@@ -6,6 +6,15 @@
     <!-- Posts -->
     <route path="post" action="showPost" controller="PostController" params="id"/>
     <route path="deleted" action="deletePostById" controller="PostController"/>
-    <route path="created" action="createPost" controller="PostController" params="post"/>
+    <route path="creation" action="createPost" controller="PostController" />
+    <route path="created" action="createdPost" controller="PostController" params="post"/>
     <route path="updated" action="updatePostById" controller="PostController" params="id"/>
+    <!-- Users -->
+    <route path="user" action="showUser" controller="UserController" params="id"/>
+    <route path="login" action="login" controller="UserController" />
+    <route path="loginAction" action="loginAction" controller="UserController" />
+    <route path="signup" action="index" controller="PostController" />
+    <route path="userdeleted" action="deleteUserById" controller="UserController"/>
+    <route path="usercreated" action="createUser" controller="UserController" params="user"/>
+    <route path="userupdated" action="updateUserById" controller="UserController" params="id"/>
 </routes>

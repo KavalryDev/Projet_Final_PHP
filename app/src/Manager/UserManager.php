@@ -47,7 +47,7 @@ class UserManager extends BaseManager
      */
     public function getUserById(int $id): User
     {
-        $select = $this->db->prepare('SELECT * FROM User WHERE id=:id');
+        $select = $this->db->prepare('SELECT * FROM User WHERE idUser=:id');
         $select->bindValue(':id', $id, \PDO::PARAM_INT);
         $select->execute();
 
@@ -71,7 +71,7 @@ class UserManager extends BaseManager
             $select->bindValue(':password',$user->getPassword(),\PDO::PARAM_STR);
             $select->bindValue(':email',$user->getEmail(),\PDO::PARAM_STR);
             $select->bindValue(':isAdmin',$user->isAdmin(),\PDO::PARAM_BOOL);
-            $select->bindValue(':id',$user->getId(),\PDO::PARAM_INT);
+            $select->bindValue(':id',$user->getIdUser(),\PDO::PARAM_INT);
 
             $select->execute();
         } catch (\Exception $e) {
