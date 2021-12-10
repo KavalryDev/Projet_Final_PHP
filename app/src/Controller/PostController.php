@@ -50,11 +50,13 @@ class PostController extends BaseController
                     );
                 } else {
                     header('Location: /');
+                    Flash::setFlash('alert', 'Ce post n\'existe pas.');
                     exit();
                 }
 
             case false:
                 header('Location: /');
+                Flash::setFlash('alert', 'Vous ne pouvez pas accéder à cette page.');
                 exit();
         }
     }
@@ -65,24 +67,33 @@ class PostController extends BaseController
      */
     public function executeDeletePostById()
     {
-        // TODO - Pousser un flash à la suppression du post ?
+        if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
 
-        $postid = $this->params['id'];
-        $postManager = new PostManager();
+            $postid = $_POST['deleteid'];
+            $postManager = new PostManager();
 
-        switch ($postid !="") {
-            case true:
-                $post = $postManager->getPostById($this->params['id']);
-                if ( is_object($post) ) {
-                    Flash::setFlash('alert', 'Post supprimé.');
-                    //$postManager->deletePostById($postid);
-                }
-                header('Location: /');
-                exit();
+            switch ($postid != "") {
+                case true:
+                    $post = $postManager->getPostById($_POST['deleteid']);
+                    if (is_object($post)) {
+                        Flash::setFlash('success', 'Post supprimé.');
+                        $postManager->deletePostById($postid);
+                    } else {
+                        Flash::setFlash('alert', 'Le post que vous souhaitez supprimer, n\'existe pas smfdlk.');
+                    }
+                    header('Location: /');
+                    exit();
 
-            case false:
-                header('Location: /');
-                exit();
+                case false:
+                    header('Location: /');
+                    Flash::setFlash('alert', 'Le post que vous souhaitez supprimer, n\'existe pas lkmn.');
+                    exit();
+            }
+
+        } else {
+            header('Location: /');
+            Flash::setFlash('alert', 'Vous ne pouvez pas accéder à cette page.');
+            exit();
         }
     }
 
@@ -94,6 +105,9 @@ class PostController extends BaseController
     {
         // TODO - Checker le fonctionnement via formulaire
         // TODO - Impossible de checker en l'état car je ne peux pas passer le contenu d'un Post dans $_GET
+        // Remplacer $_GET (-> bannir) par $_POST
+        // Je dois donner le contenu qui permettra d'instancier un objet Post.
+
         $post = new Post($this->params);
         $postManager = new PostManager();
         //$postManager->createPost($post);

@@ -22,7 +22,13 @@ class PostManager extends BaseManager
      */
     public function getPostById(int $id)
     {
-        $select = $this->db->prepare('SELECT * FROM Post WHERE id=:id');
+        $select = $this->db->prepare(
+            'SELECT `Post`.*, `User`.`Firstname`, `User`.`Lastname`, `Post`.`id` 
+                    FROM `Post` 
+                    LEFT JOIN `User` 
+                    ON `Post`.`idUser` = `User`.`id` 
+                    WHERE `Post`.`id` = :id;'
+        );
         $select->bindValue(':id', $id, \PDO::PARAM_INT);
         $select->execute();
 
