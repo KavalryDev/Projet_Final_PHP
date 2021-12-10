@@ -1,5 +1,1 @@
-/app/vendor/
-/app/composer.json
-/app/composer.lock
 /database/ib_logfile0
-/database/Blog/
