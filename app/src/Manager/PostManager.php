@@ -35,21 +35,6 @@ class PostManager extends BaseManager
     }
 
     /**
-     * @param int $id
-     * @return Post
-     */
-    public function getPostByIdWithComments(int $id): Post
-    {
-        $select = $this->db->prepare('SELECT * FROM Post WHERE id =:id');
-        $select->bindValue(':id', $id, \PDO::PARAM_INT);
-        $select->execute();
-
-        $result = $select->fetch(\PDO::FETCH_ASSOC);
-        $post = $result['Post'];
-        return new $post($result);
-    }
-
-    /**
      * @param Post $post
      * @return Post|bool
      */

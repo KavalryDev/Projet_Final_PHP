@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <routes>
+    <!-- General -->
     <route path="/" action="index" controller="PostController"/>
+    <!-- Posts -->
     <route path="post" action="showPost" controller="PostController" params="id"/>
+    <route path="deleted" action="deletePostById" controller="PostController" params="id"/>
+    <route path="created" action="createPost" controller="PostController" params="post"/>
+    <route path="updated" action="updatePostById" controller="PostController" params=""/>
 </routes>

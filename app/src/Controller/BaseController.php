@@ -29,19 +29,16 @@ abstract class BaseController
      */
     public function render(string $template, array $arguments, string $title)
     {
-        // je suis un commentaire
         $view = $this->viewsDir . $template;
 
         foreach ($arguments as $key => $value) {
             ${$key} = $value;
         }
 
-
         ob_start();
         require $view;
         $content = ob_get_clean();
         require $this->templateFile;
         exit;
-
     }
 }
